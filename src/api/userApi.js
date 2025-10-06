@@ -1,7 +1,7 @@
 // src/api/userApi.js
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/api/users"; // include /users
+const API_URL = "https://erp-clouds-backend.onrender.com/api/users"; // include /users
 
 export const getCurrentUser = async () => {
   try {
@@ -47,7 +47,7 @@ export const uploadAvatar = async (file) => {
   try {
     const formData = new FormData();
     formData.append("file", file);
-    const res = await axios.post("http://localhost:8080/api/upload/avatar", formData, {
+    const res = await axios.post("https://erp-clouds-backend.onrender.com/api/upload/avatar", formData, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "multipart/form-data",
