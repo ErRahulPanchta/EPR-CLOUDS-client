@@ -7,7 +7,7 @@ export const getCurrentUser = async () => {
     const token = localStorage.getItem("token");
     if (!token) throw new Error("No token found");
 
-    const res = await axios.get(`${API_URL}/api/auth/me`, {
+    const res = await axios.get(`${API_URL}/api/users/me`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -27,7 +27,7 @@ export const getCurrentUser = async () => {
 export const updateUserProfile = async ({ name, phone, avatar_url }) => {
   try {
     const res = await axios.put(
-      `${API_URL}/api/auth/me`,
+      `${API_URL}/api/users/me`,
       { name, phone, avatar_url },
       { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
     );
