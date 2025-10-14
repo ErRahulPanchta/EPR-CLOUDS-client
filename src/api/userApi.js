@@ -46,7 +46,7 @@ export const uploadAvatar = async (file) => {
   try {
     const formData = new FormData();
     formData.append("file", file);
-    const res = await axios.post(`${API_URL}/api/upload/avatar`, formData, {
+    const res = await axios.put(`${API_URL}/api/users/me`, formData, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "multipart/form-data",
