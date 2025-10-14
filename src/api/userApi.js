@@ -1,14 +1,13 @@
-// src/api/userApi.js
 import axios from "axios";
 
-const API_URL = "https://erp-clouds-backend.onrender.com/api/users"; // include /users
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const getCurrentUser = async () => {
   try {
     const token = localStorage.getItem("token");
     if (!token) throw new Error("No token found");
 
-    const res = await axios.get(`${API_URL}/me`, {
+    const res = await axios.get(`${API_URL}/api/auth/me`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -28,7 +27,7 @@ export const getCurrentUser = async () => {
 export const updateUserProfile = async ({ name, phone, avatar_url }) => {
   try {
     const res = await axios.put(
-      `${API_URL}/me`,
+      `${API_URL}/api/auth/me`,
       { name, phone, avatar_url },
       { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
     );
@@ -47,7 +46,7 @@ export const uploadAvatar = async (file) => {
   try {
     const formData = new FormData();
     formData.append("file", file);
-    const res = await axios.post("https://erp-clouds-backend.onrender.com/api/upload/avatar", formData, {
+    const res = await axios.post(`${API_URL}/api/upload/avatar`, formData, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "multipart/form-data",

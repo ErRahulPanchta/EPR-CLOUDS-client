@@ -1,18 +1,17 @@
 import axios from "axios";
 
-const API_URL = "https://erp-clouds-backend.onrender.com/api";
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 const getAuthHeaders = () => ({
   Authorization: `Bearer ${localStorage.getItem("token")}`,
 });
 
-// ✅ List folders
 export const getFolders = async (parentId = null) => {
   try {
     const params = {};
     if (parentId) params.parentId = parentId;
 
-    const res = await axios.get(`${API_URL}/folders`, {
+    const res = await axios.get(`${API_URL}/api/folders`, {
       headers: getAuthHeaders(),
       params,
     });
@@ -24,13 +23,12 @@ export const getFolders = async (parentId = null) => {
   }
 };
 
-// ✅ Create folder
 export const createFolder = async (name, parentId = null) => {
   try {
     const body = { name };
     if (parentId) body.parentId = parentId;
 
-    const res = await axios.post(`${API_URL}/folders`, body, {
+    const res = await axios.post(`${API_URL}/api/folders`, body, {
       headers: getAuthHeaders(),
     });
 
@@ -41,10 +39,9 @@ export const createFolder = async (name, parentId = null) => {
   }
 };
 
-// ✅ Delete folder
 export const deleteFolder = async (id) => {
   try {
-    const res = await axios.delete(`${API_URL}/folders/${id}`, {
+    const res = await axios.delete(`${API_URL}/api/folders/${id}`, {
       headers: getAuthHeaders(),
     });
     return res.data;
@@ -54,11 +51,10 @@ export const deleteFolder = async (id) => {
   }
 };
 
-// ✅ Rename folder
 export const renameFolder = async (id, name) => {
   try {
     const res = await axios.patch(
-      `${API_URL}/folders/${id}`,
+      `${API_URL}/api/folders/${id}`,
       { name },
       { headers: getAuthHeaders() }
     );
@@ -69,7 +65,6 @@ export const renameFolder = async (id, name) => {
   }
 };
 
-// ✅ Share folder (POST fixed)
 export const shareFolder = async (id) => {
   try {
     const res = await axios.get(`/api/folders/${id}/share`);

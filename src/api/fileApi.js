@@ -1,18 +1,17 @@
 import axios from "axios";
 
-const API_URL = "https://erp-clouds-backend.onrender.com/api";
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 const getAuthHeaders = () => ({
   Authorization: `Bearer ${localStorage.getItem("token")}`,
 });
 
-// ✅ List files
 export const getFiles = async (folderId = null) => {
   try {
     const params = {};
     if (folderId) params.parentId = folderId;
 
-    const res = await axios.get(`${API_URL}/files`, {
+    const res = await axios.get(`${API_URL}/api/files`, {
       headers: getAuthHeaders(),
       params,
     });
@@ -24,12 +23,11 @@ export const getFiles = async (folderId = null) => {
   }
 };
 
-// ✅ Upload single file
 export const uploadFile = async (formData, folderId = null) => {
   try {
     const url = folderId
-      ? `${API_URL}/files/upload?folderId=${folderId}`
-      : `${API_URL}/files/upload`;
+      ? `${API_URL}/api/files/upload?folderId=${folderId}`
+      : `${API_URL}/api/files/upload`;
 
     const res = await axios.post(url, formData, {
       headers: {
@@ -45,12 +43,11 @@ export const uploadFile = async (formData, folderId = null) => {
   }
 };
 
-// ✅ Upload folder (multiple files)
 export const uploadFolder = async (formData, folderId = null) => {
   try {
     const url = folderId
-      ? `${API_URL}/files/upload-folder?folderId=${folderId}`
-      : `${API_URL}/files/upload-folder`;
+      ? `${API_URL}/api/files/upload-folder?folderId=${folderId}`
+      : `${API_URL}/api/files/upload-folder`;
 
     const res = await axios.post(url, formData, {
       headers: {
@@ -66,10 +63,9 @@ export const uploadFolder = async (formData, folderId = null) => {
   }
 };
 
-// ✅ Delete file
 export const deleteFile = async (id) => {
   try {
-    const res = await axios.delete(`${API_URL}/files/${id}`, {
+    const res = await axios.delete(`${API_URL}/api/files/${id}`, {
       headers: getAuthHeaders(),
     });
     return res.data;
@@ -79,11 +75,10 @@ export const deleteFile = async (id) => {
   }
 };
 
-// ✅ Rename file
 export const renameFile = async (id, name) => {
   try {
     const res = await axios.patch(
-      `${API_URL}/files/${id}`,
+      `${API_URL}/api/files/${id}`,
       { name },
       { headers: getAuthHeaders() }
     );
@@ -94,7 +89,6 @@ export const renameFile = async (id, name) => {
   }
 };
 
-// ✅ Share file (POST fixed)
 export const shareFile = async (id) => {
   try {
     const res = await axios.get(`/api/files/${id}/share`);
